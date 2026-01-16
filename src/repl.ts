@@ -1,9 +1,8 @@
 import { createInterface } from "node:readline";
 import process from "node:process";
+import { getCommands } from "./commands.js";
 
 export function startREPL() {
-  // console.log("Hello Repl");
-
   const r1 = createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -12,18 +11,31 @@ export function startREPL() {
 
   r1.prompt();
   r1.on("line", (input) => {
-    const commands = cleanInput(input);
+    const words = cleanInput(input);
+    if (words.length === 0) {
+      r1.prompt();
+      return;
+    }
+    const commandName = words[0];
 
-    if (commands.length === 1) {
+    const commands = getCommands();
+    const cmd = commands[commandName];
+    if (!cmd) {
+      console.log(
+        `Unknown command: ${commandName}. Type "help" for a list of commands`,
+      );
       r1.prompt();
       return;
     }
 
-    console.log("Your command was: " + commands[0]);
+    cmd.callback(commands);
+
     r1.prompt();
   });
 }
 
 export function cleanInput(input: string): Array<string> {
+  if (input.length === 0) return [];
+
   return input.toLowerCase().trim().replace(/ +/g, " ").split(" ");
 }
