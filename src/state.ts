@@ -30,7 +30,7 @@ export function initState(): State {
     rl,
     commands,
     pokeAPI,
-    nextLocationsURL: "",
-    prevLocationsURL: "",
+    nextLocationsURL: null,
+    prevLocationsURL: null,
   };
 }
