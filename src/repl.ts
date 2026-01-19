@@ -1,10 +1,8 @@
-import { createInterface } from "node:readline";
-import process from "node:process";
-import { getCommands } from "./commands.js";
 import { initState } from "./state.js";
 
 export function startREPL() {
-  const { rl, commands } = initState();
+  const state = initState();
+  let { rl, commands } = state;
   rl.prompt();
   rl.on("line", (input) => {
     const words = cleanInput(input);
@@ -23,7 +21,7 @@ export function startREPL() {
       return;
     }
 
-    cmd.callback({ rl, commands });
+    cmd.callback(state);
     rl.prompt();
   });
 }
