@@ -64,6 +64,24 @@ export const LocationSchema = z.object({
 export const PokemonSchema = z.object({
   base_experience: z.number(),
   name: z.string(),
+  weight: z.number(),
+  height: z.number(),
+  stats: z.array(
+    z.object({
+      base_stat: z.number(),
+      effort: z.number(),
+      stat: z.object({
+        name: z.string(),
+        url: z.string(),
+      }),
+    }),
+  ),
+  types: z.array(
+    z.object({
+      slot: z.number(),
+      type: z.object({ name: z.string(), url: z.string() }),
+    }),
+  ),
 });
 
 export type ShallowLocations = z.infer<typeof ShallowLocationsSchema>;
