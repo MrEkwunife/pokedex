@@ -61,5 +61,11 @@ export const LocationSchema = z.object({
   ),
 });
 
+export const PokemonSchema = z.object({
+  base_experience: z.number(),
+  name: z.string(),
+});
+
 export type ShallowLocations = z.infer<typeof ShallowLocationsSchema>;
 export type Location = z.infer<typeof LocationSchema>;
+export type Pokemon = z.infer<typeof PokemonSchema>;

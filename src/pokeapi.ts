@@ -3,6 +3,8 @@ import {
   ShallowLocations,
   LocationSchema,
   Location,
+  PokemonSchema,
+  Pokemon,
 } from "./pokeapi.schema.js";
 import { Cache } from "./pokecache.js";
 
@@ -40,5 +42,21 @@ export class PokeAPI {
     const data = await res.json();
     this.cache.add(url, data);
     return LocationSchema.parse(data);
+  }
+
+  async fetchPokemon(name: string): Promise<Pokemon> {
+    const url = `${PokeAPI.baseURL}/pokemon/${name}`;
+    const cached = this.cache.get<Pokemon>(url);
+    if (cached) {
+      return PokemonSchema.parse(cached);
+    }
+
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    this.cache.add<Pokemon>(url, data);
+    return PokemonSchema.parse(data);
   }
 }
