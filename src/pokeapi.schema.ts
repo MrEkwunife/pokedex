@@ -13,17 +13,20 @@ export const ShallowLocationsSchema = z.object({
 });
 
 export const LocationSchema = z.object({
-  encounter_methods_rates: z.array(
-    z.object({
-      encounter_method: z.object({ name: z.string(), url: z.string().url() }),
-      version_details: z.array(
-        z.object({
-          rate: z.number(),
-          version: z.object({ name: z.string(), url: z.string().url() }),
-        }),
-      ),
-    }),
-  ),
+  encounter_method_rates: z
+    .array(
+      z.object({
+        encounter_method: z.object({ name: z.string(), url: z.string().url() }),
+        version_details: z.array(
+          z.object({
+            rate: z.number(),
+            version: z.object({ name: z.string(), url: z.string().url() }),
+          }),
+        ),
+      }),
+    )
+    .optional(),
+
   game_index: z.number(),
   id: z.number(),
   location: z.object({ name: z.string(), url: z.string() }),
@@ -42,13 +45,15 @@ export const LocationSchema = z.object({
           encounter_details: z.array(
             z.object({
               chance: z.number(),
-              condition_values: z.array(z.number()),
+              condition_values: z.array(
+                z.object({ name: z.string(), url: z.string() }),
+              ),
               max_level: z.number(),
               method: z.object({ name: z.string(), url: z.string() }),
-              min_value: z.number(),
+              min_level: z.number(),
             }),
           ),
-          max_chances: z.number(),
+          max_chance: z.number(),
           version: z.object({ name: z.string(), url: z.string() }),
         }),
       ),

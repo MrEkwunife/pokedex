@@ -22,7 +22,7 @@ export async function startREPL() {
     }
 
     try {
-      await cmd.callback(state);
+      await cmd.callback(state, ...words.slice(1));
       rl.prompt();
     } catch (error) {}
   });
