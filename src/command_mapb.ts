@@ -28,7 +28,7 @@ export async function commandMapB(state: State) {
       console.log(error.issues);
       process.exit(1);
     } else {
-      `Error: ${error}`;
+      console.log(`Error: ${error}`);
     }
   }
 }
